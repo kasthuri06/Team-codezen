@@ -369,24 +369,6 @@ REACT_APP_API_BASE_URL=https://your-api-domain.com/api
 - [ ] Configure CDN for static assets
 - [ ] Set up database backups
 
-## 🐛 Known Issues & Solutions
-
-### Virtual Try-On Timeout
-If try-on generation times out:
-- Increase timeout in `frontend/src/config/api.ts` (currently 60s)
-- Check Miragic API credits
-- Verify network connectivity
-
-### Image Not Displaying
-- Check browser console for CORS errors
-- Verify image URL is accessible
-- Check Miragic API response format
-
-### Payment Issues
-- Verify Razorpay keys are correct
-- Check test mode vs live mode
-- Ensure webhook URLs are configured
-
 ## 📚 Additional Documentation
 - [SETUP.md](SETUP.md) - Detailed setup instructions
 - [SUBSCRIPTION-SETUP.md](SUBSCRIPTION-SETUP.md) - Payment integration guide
@@ -429,20 +411,11 @@ MIT License - feel free to use this project for learning and development.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 👥 Authors
-- Your Name - Initial work
-
 ## 🙏 Acknowledgments
 - Miragic AI for virtual try-on technology
 - Google Gemini for AI assistance
 - Firebase for backend infrastructure
 - Razorpay for payment processing
-
-## 📞 Support
-For issues and questions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review troubleshooting section
 
 ---
 
