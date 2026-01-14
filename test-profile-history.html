@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Profile History</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .history-item { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        img { max-width: 100px; height: auto; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>SitFit Profile History Test</h1>
+    
+    <div class="section">
+        <h2>Add Sample Try-On History</h2>
+        <button onclick="addSampleAIHistory()">Add AI Try-On Result</button>
+        <button onclick="addSampleLocalHistory()">Add Local Try-On Result</button>
+        <button onclick="addSampleFavorite()">Add Sample Favorite</button>
+        <button onclick="addSampleStylistConversation()">Add Stylist Conversation</button>
+        <button onclick="clearHistory()">Clear All History</button>
+    </div>
+
+    <div class="section">
+        <h2>Current Try-On History</h2>
+        <div id="historyDisplay"></div>
+    </div>
+
+    <div class="section">
+        <h2>Current Favorites</h2>
+        <div id="favoritesDisplay"></div>
+    </div>
+
+    <div class="section">
+        <h2>Current Stylist History</h2>
+        <div id="stylistDisplay"></div>
+    </div>
+
+    <script>
+        function addSampleAIHistory() {
+            const historyItem = {
+                id: `ai-test-${Date.now()}`,
+                type: 'ai',
+                modelImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREMwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vZGVsPC90ZXh0Pjwvc3ZnPg==',
+                outfitImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN0VEMzIxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk91dGZpdDwvdGV4dD48L3N2Zz4=',
+                resultImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRjVBNjIzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFJIFJlc3VsdDwvdGV4dD48L3N2Zz4=',
+                createdAt: new Date(),
+                status: 'completed',
+                tags: ['ai-generated', 'full-body'],
+                garmentType: 'full_body'
+            };
+
+            const existingHistory = JSON.parse(localStorage.getItem('sitfit-tryon-history') || '[]');
+            existingHistory.unshift(historyItem);
+            localStorage.setItem('sitfit-tryon-history', JSON.stringify(existingHistory));
+            
+            displayHistory();
+            alert('AI Try-On result added to history!');
+        }
+
+        function addSampleLocalHistory() {
+            const historyItem = {
+                id: `local-test-${Date.now()}`,
+                type: 'local',
+                modelImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREMwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vZGVsPC90ZXh0Pjwvc3ZnPg==',
+                outfitImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN0VEMzIxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk91dGZpdDwvdGV4dD48L3N2Zz4=',
+                resultImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjOTAxM0ZFIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkxvY2FsIE1hdGNoPC90ZXh0Pjwvc3ZnPg==',
+                createdAt: new Date(),
+                status: 'completed',
+                tags: ['local-match', 'casual'],
+                combinationId: 'combo_001'
+            };
+
+            const existingHistory = JSON.parse(localStorage.getItem('sitfit-tryon-history') || '[]');
+            existingHistory.unshift(historyItem);
+            localStorage.setItem('sitfit-tryon-history', JSON.stringify(existingHistory));
+            
+            displayHistory();
+            alert('Local Try-On result added to history!');
+        }
+
+        function addSampleFavorite() {
+            const favoriteItem = {
+                id: `fav-test-${Date.now()}`,
+                image: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjRkY2QjZCIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkZhdm9yaXRlPC90ZXh0Pjwvc3ZnPg==',
+                modelImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNEVDREMwIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vZGVsPC90ZXh0Pjwvc3ZnPg==',
+                outfitImage: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN0VEMzIxIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk91dGZpdDwvdGV4dD48L3N2Zz4=',
+                garmentType: 'full_body',
+                timestamp: Date.now()
+            };
+
+            const existingFavorites = JSON.parse(localStorage.getItem('sitfit-tryon-favorites') || '[]');
+            existingFavorites.push(favoriteItem);
+            localStorage.setItem('sitfit-tryon-favorites', JSON.stringify(existingFavorites));
+            
+            displayFavorites();
+            alert('Sample favorite added!');
+        }
+
+        function addSampleStylistConversation() {
+            const conversationItem = {
+                id: `stylist-test-${Date.now()}`,
+                query: "What should I wear for a casual weekend?",
+                response: "For a relaxed weekend look, try pairing comfortable dark jeans with a soft cotton t-shirt or casual blouse. Layer with a cardigan or light jacket, and finish with clean sneakers or comfortable flats. Add a crossbody bag and some simple jewelry for a put-together casual vibe.",
+                createdAt: new Date(),
+                rating: 5
+            };
+
+            const existingHistory = JSON.parse(localStorage.getItem('sitfit-stylist-history') || '[]');
+            existingHistory.unshift(conversationItem);
+            localStorage.setItem('sitfit-stylist-history', JSON.stringify(existingHistory));
+            
+            displayStylistHistory();
+            alert('Sample stylist conversation added!');
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('sitfit-tryon-history');
+            localStorage.removeItem('sitfit-tryon-favorites');
+            localStorage.removeItem('sitfit-stylist-history');
+            displayHistory();
+            displayFavorites();
+            displayStylistHistory();
+            alert('All history and favorites cleared!');
+        }
+
+        function displayHistory() {
+            const history = JSON.parse(localStorage.getItem('sitfit-tryon-history') || '[]');
+            const display = document.getElementById('historyDisplay');
+            
+            if (history.length === 0) {
+                display.innerHTML = '<p>No try-on history found.</p>';
+                return;
+            }
+
+            display.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <strong>ID:</strong> ${item.id}<br>
+                    <strong>Type:</strong> ${item.type}<br>
+                    <strong>Created:</strong> ${new Date(item.createdAt).toLocaleString()}<br>
+                    <strong>Tags:</strong> ${item.tags?.join(', ') || 'None'}<br>
+                    <div>
+                        <img src="${item.modelImage}" alt="Model" title="Model Image">
+                        <img src="${item.outfitImage}" alt="Outfit" title="Outfit Image">
+                        <img src="${item.resultImage}" alt="Result" title="Result Image">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('sitfit-tryon-favorites') || '[]');
+            const display = document.getElementById('favoritesDisplay');
+            
+            if (favorites.length === 0) {
+                display.innerHTML = '<p>No favorites found.</p>';
+                return;
+            }
+
+            display.innerHTML = favorites.map(item => `
+                <div class="history-item">
+                    <strong>ID:</strong> ${item.id}<br>
+                    <strong>Timestamp:</strong> ${new Date(item.timestamp).toLocaleString()}<br>
+                    <strong>Garment Type:</strong> ${item.garmentType || 'Unknown'}<br>
+                    <div>
+                        <img src="${item.modelImage}" alt="Model" title="Model Image">
+                        <img src="${item.outfitImage}" alt="Outfit" title="Outfit Image">
+                        <img src="${item.image}" alt="Result" title="Result Image">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayStylistHistory() {
+            const history = JSON.parse(localStorage.getItem('sitfit-stylist-history') || '[]');
+            const display = document.getElementById('stylistDisplay');
+            
+            if (history.length === 0) {
+                display.innerHTML = '<p>No stylist conversations found.</p>';
+                return;
+            }
+
+            display.innerHTML = history.map(item => `
+                <div class="history-item">
+                    <strong>ID:</strong> ${item.id}<br>
+                    <strong>Query:</strong> ${item.query}<br>
+                    <strong>Response:</strong> ${item.response.substring(0, 100)}...<br>
+                    <strong>Created:</strong> ${new Date(item.createdAt).toLocaleString()}<br>
+                    <strong>Rating:</strong> ${item.rating}/5 stars<br>
+                </div>
+            `).join('');
+        }
+
+        // Load and display on page load
+        window.onload = function() {
+            displayHistory();
+            displayFavorites();
+            displayStylistHistory();
+        };
+    </script>
+</body>
+</html>

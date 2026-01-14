@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Test - SitFit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #4338CA;
+        }
+        button:disabled {
+            background: #9CA3AF;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+        .error {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+        img {
+            max-width: 200px;
+            height: auto;
+            margin: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 SitFit Download Functionality Test</h1>
+        <p>This page tests the download functionality that will be used in the SitFit application.</p>
+
+        <div class="test-section">
+            <h2>📥 Image Download Test</h2>
+            <p>Test downloading images from URLs:</p>
+            
+            <img id="testImage" src="https://via.placeholder.com/400x600/4ECDC4/ffffff?text=Test+Image" alt="Test Image">
+            
+            <div>
+                <button onclick="testImageDownload()">Download Test Image</button>
+                <button onclick="testCanvasDownload()">Download Canvas Image</button>
+                <button onclick="testCompositeDownload()">Download Composite</button>
+            </div>
+            <div id="downloadResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📤 Share Functionality Test</h2>
+            <p>Test sharing capabilities:</p>
+            
+            <div>
+                <button onclick="testNativeShare()">Test Native Share</button>
+                <button onclick="testClipboardShare()">Test Clipboard Share</button>
+            </div>
+            <div id="shareResult" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>💾 Local Storage Test</h2>
+            <p>Test favorites functionality:</p>
+            
+            <div>
+                <button onclick="testSaveFavorite()">Save to Favorites</button>
+                <button onclick="testLoadFavorites()">Load Favorites</button>
+                <button onclick="testClearFavorites()">Clear Favorites</button>
+            </div>
+            <div id="storageResult" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Download Service Implementation (simplified)
+        class TestDownloadService {
+            async downloadImage(imageUrl, filename = `test-image-${Date.now()}.jpg`) {
+                try {
+                    const response = await fetch(imageUrl);
+                    if (!response.ok) throw new Error('Failed to fetch image');
+                    
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = filename;
+                    link.style.display = 'none';
+                    
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    window.URL.revokeObjectURL(url);
+                    return true;
+                } catch (error) {
+                    console.error('Download failed:', error);
+                    throw error;
+                }
+            }
+
+            downloadCanvas(canvas, filename = `test-canvas-${Date.now()}.png`) {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+
+            async createCompositeImage() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = 1200;
+                canvas.height = 400;
+                
+                // White background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw colored rectangles as placeholders
+                const colors = ['#4ECDC4', '#45B7D1', '#96CEB4'];
+                const labels = ['Model', 'Outfit', 'Result'];
+                
+                for (let i = 0; i < 3; i++) {
+                    const x = i * 400;
+                    ctx.fillStyle = colors[i];
+                    ctx.fillRect(x, 0, 380, 350);
+                    
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 24px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(labels[i], x + 190, 180);
+                    
+                    ctx.fillStyle = '#333333';
+                    ctx.font = '16px Arial';
+                    ctx.fillText(labels[i], x + 190, 380);
+                }
+                
+                this.downloadCanvas(canvas, `sitfit-composite-test-${Date.now()}.png`);
+            }
+
+            canShare() {
+                return 'share' in navigator;
+            }
+
+            async shareContent(data) {
+                if (this.canShare()) {
+                    await navigator.share(data);
+                } else {
+                    const shareText = `${data.title || ''}\n${data.text || ''}\n${data.url || ''}`.trim();
+                    await navigator.clipboard.writeText(shareText);
+                }
+            }
+        }
+
+        const downloadService = new TestDownloadService();
+
+        // Test Functions
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.style.display = 'block';
+            element.className = `result ${isSuccess ? 'success' : 'error'}`;
+            element.textContent = message;
+        }
+
+        async function testImageDownload() {
+            try {
+                const imageUrl = document.getElementById('testImage').src;
+                await downloadService.downloadImage(imageUrl, 'sitfit-test-image.jpg');
+                showResult('downloadResult', '✅ Image download successful!');
+            } catch (error) {
+                showResult('downloadResult', `❌ Image download failed: ${error.message}`, false);
+            }
+        }
+
+        function testCanvasDownload() {
+            try {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 400;
+                canvas.height = 300;
+                
+                ctx.fillStyle = '#4ECDC4';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('SitFit Canvas Test', canvas.width/2, canvas.height/2);
+                
+                downloadService.downloadCanvas(canvas, 'sitfit-canvas-test.png');
+                showResult('downloadResult', '✅ Canvas download successful!');
+            } catch (error) {
+                showResult('downloadResult', `❌ Canvas download failed: ${error.message}`, false);
+            }
+        }
+
+        async function testCompositeDownload() {
+            try {
+                await downloadService.createCompositeImage();
+                showResult('downloadResult', '✅ Composite download successful!');
+            } catch (error) {
+                showResult('downloadResult', `❌ Composite download failed: ${error.message}`, false);
+            }
+        }
+
+        async function testNativeShare() {
+            try {
+                const shareData = {
+                    title: 'SitFit Test Share',
+                    text: 'Testing the share functionality for SitFit virtual try-on!',
+                    url: window.location.href
+                };
+                
+                await downloadService.shareContent(shareData);
+                
+                if (downloadService.canShare()) {
+                    showResult('shareResult', '✅ Native share successful!');
+                } else {
+                    showResult('shareResult', '✅ Content copied to clipboard!');
+                }
+            } catch (error) {
+                showResult('shareResult', `❌ Share failed: ${error.message}`, false);
+            }
+        }
+
+        async function testClipboardShare() {
+            try {
+                const text = 'SitFit virtual try-on test - clipboard functionality working!';
+                await navigator.clipboard.writeText(text);
+                showResult('shareResult', '✅ Clipboard copy successful!');
+            } catch (error) {
+                showResult('shareResult', `❌ Clipboard copy failed: ${error.message}`, false);
+            }
+        }
+
+        function testSaveFavorite() {
+            try {
+                const favorite = {
+                    id: `test-${Date.now()}`,
+                    name: 'Test Favorite',
+                    timestamp: Date.now()
+                };
+                
+                const favorites = JSON.parse(localStorage.getItem('sitfit-test-favorites') || '[]');
+                favorites.push(favorite);
+                localStorage.setItem('sitfit-test-favorites', JSON.stringify(favorites));
+                
+                showResult('storageResult', `✅ Favorite saved! Total: ${favorites.length}`);
+            } catch (error) {
+                showResult('storageResult', `❌ Save failed: ${error.message}`, false);
+            }
+        }
+
+        function testLoadFavorites() {
+            try {
+                const favorites = JSON.parse(localStorage.getItem('sitfit-test-favorites') || '[]');
+                showResult('storageResult', `✅ Loaded ${favorites.length} favorites from storage`);
+            } catch (error) {
+                showResult('storageResult', `❌ Load failed: ${error.message}`, false);
+            }
+        }
+
+        function testClearFavorites() {
+            try {
+                localStorage.removeItem('sitfit-test-favorites');
+                showResult('storageResult', '✅ Favorites cleared successfully!');
+            } catch (error) {
+                showResult('storageResult', `❌ Clear failed: ${error.message}`, false);
+            }
+        }
+
+        // Show browser capabilities on load
+        window.onload = function() {
+            console.log('Browser capabilities:');
+            console.log('- Native sharing:', 'share' in navigator);
+            console.log('- Clipboard API:', 'clipboard' in navigator);
+            console.log('- Local Storage:', 'localStorage' in window);
+        };
+    </script>
+</body>
+</html>
