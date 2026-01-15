@@ -2,6 +2,20 @@
 
 SitFit is a comprehensive fashion technology platform that combines AI-powered virtual try-on, intelligent style recommendations, and outfit management features to revolutionize the online shopping experience.
 
+## 💡 Innovation Highlights
+
+🎯 **Dual Try-On System** - AI generation + instant local matching in one platform
+
+🤖 **Conversational Fashion AI** - Chat naturally for personalized style advice
+
+📅 **Weather-Smart Planning** - Outfit suggestions based on real-time forecasts
+
+💳 **Fair Credit System** - Free monthly credits + premium options
+
+🎨 **In-App Combo Creator** - Build and save outfits with drag-and-drop
+
+🔄 **Offline-Online Flow** - Browse instantly, generate when ready
+
 ## 🌟 Features
 
 ### 1. **AI Virtual Try-On**
@@ -369,24 +383,6 @@ REACT_APP_API_BASE_URL=https://your-api-domain.com/api
 - [ ] Configure CDN for static assets
 - [ ] Set up database backups
 
-## 🐛 Known Issues & Solutions
-
-### Virtual Try-On Timeout
-If try-on generation times out:
-- Increase timeout in `frontend/src/config/api.ts` (currently 60s)
-- Check Miragic API credits
-- Verify network connectivity
-
-### Image Not Displaying
-- Check browser console for CORS errors
-- Verify image URL is accessible
-- Check Miragic API response format
-
-### Payment Issues
-- Verify Razorpay keys are correct
-- Check test mode vs live mode
-- Ensure webhook URLs are configured
-
 ## 📚 Additional Documentation
 - [SETUP.md](SETUP.md) - Detailed setup instructions
 - [SUBSCRIPTION-SETUP.md](SUBSCRIPTION-SETUP.md) - Payment integration guide
@@ -429,20 +425,11 @@ MIT License - feel free to use this project for learning and development.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 👥 Authors
-- Your Name - Initial work
-
 ## 🙏 Acknowledgments
 - Miragic AI for virtual try-on technology
 - Google Gemini for AI assistance
 - Firebase for backend infrastructure
 - Razorpay for payment processing
-
-## 📞 Support
-For issues and questions:
-- Open an issue on GitHub
-- Check existing documentation
-- Review troubleshooting section
 
 ---
 
