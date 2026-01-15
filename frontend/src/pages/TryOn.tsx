@@ -287,13 +287,15 @@ const TryOn: React.FC = () => {
               onClick={() => handleGarmentTypeChange('full_body')}
               className={`p-4 rounded-lg border-2 transition-all ${
                 garmentType === 'full_body'
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-primary-500 bg-black text-white'
+                  : 'border-gray-200 hover:border-gray-300 bg-white'
               }`}
             >
               <div className="text-left">
                 <h3 className="font-semibold">Full Body Outfit</h3>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className={`text-sm mt-1 ${
+                  garmentType === 'full_body' ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   Try on complete outfits like dresses, jumpsuits, or full sets
                 </p>
               </div>
@@ -302,13 +304,15 @@ const TryOn: React.FC = () => {
               onClick={() => handleGarmentTypeChange('comb')}
               className={`p-4 rounded-lg border-2 transition-all ${
                 garmentType === 'comb'
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-200 hover:border-gray-300'
+                  ? 'border-primary-500 bg-black text-white'
+                  : 'border-gray-200 hover:border-gray-300 bg-white'
               }`}
             >
               <div className="text-left">
                 <h3 className="font-semibold">Separate Pieces</h3>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className={`text-sm mt-1 ${
+                  garmentType === 'comb' ? 'text-gray-300' : 'text-gray-600'
+                }`}>
                   Try on top and bottom pieces separately for mix-and-match styling
                 </p>
               </div>
