@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { PaperAirplaneIcon, SparklesIcon, ClockIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { PaperAirplaneIcon, SparklesIcon, ClockIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
 import api from '../config/api';
 import { StylistRequest, StylistResponse } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 interface Conversation {
@@ -14,6 +15,7 @@ interface Conversation {
 }
 
 const Stylist: React.FC = () => {
+  const { user, loading: authLoading } = useAuth();
   const [query, setQuery] = useState('');
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +25,42 @@ const Stylist: React.FC = () => {
     style_preference: '',
     occasion: ''
   });
+
+  // Show loading while checking authentication
+  if (authLoading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <LoadingSpinner />
+        </div>
+      </Layout>
+    );
+  }
+
+  // Show login prompt if not authenticated
+  if (!user) {
+    return (
+      <Layout>
+        <div className="max-w-2xl mx-auto text-center py-12">
+          <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-6">
+            <ExclamationTriangleIcon className="h-8 w-8 text-yellow-600 mx-auto mb-3" />
+            <h2 className="text-lg font-semibold text-yellow-800 mb-2">
+              Authentication Required
+            </h2>
+            <p className="text-yellow-700 mb-4">
+              Please log in to access the AI Stylist feature and get personalized fashion advice.
+            </p>
+            <button
+              onClick={() => window.location.href = '/login'}
+              className="btn-primary"
+            >
+              Go to Login
+            </button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   // Load existing conversations from localStorage
   useEffect(() => {
@@ -101,7 +139,21 @@ const Stylist: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Stylist error:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to get style suggestions';
+      
+      let errorMessage = 'Failed to get style suggestions';
+      
+      if (error.response?.status === 401) {
+        errorMessage = 'Please log in to use the AI Stylist feature';
+      } else if (error.response?.status === 403) {
+        errorMessage = 'Access denied. Please check your account status';
+      } else if (error.response?.status === 429) {
+        errorMessage = 'AI stylist is busy. Please try again in a moment';
+      } else if (error.response?.status === 503) {
+        errorMessage = 'AI stylist service is temporarily unavailable';
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+      
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
