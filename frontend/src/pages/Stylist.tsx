@@ -26,6 +26,18 @@ const Stylist: React.FC = () => {
     occasion: ''
   });
 
+  // Load existing conversations from localStorage
+  useEffect(() => {
+    const storedHistory = JSON.parse(localStorage.getItem('sitfit-stylist-history') || '[]');
+    const loadedConversations = storedHistory.map((item: any) => ({
+      id: item.id,
+      query: item.query,
+      response: item.response,
+      timestamp: new Date(item.createdAt)
+    }));
+    setConversations(loadedConversations);
+  }, []);
+
   // Show loading while checking authentication
   if (authLoading) {
     return (
@@ -61,18 +73,6 @@ const Stylist: React.FC = () => {
       </Layout>
     );
   }
-
-  // Load existing conversations from localStorage
-  useEffect(() => {
-    const storedHistory = JSON.parse(localStorage.getItem('sitfit-stylist-history') || '[]');
-    const loadedConversations = storedHistory.map((item: any) => ({
-      id: item.id,
-      query: item.query,
-      response: item.response,
-      timestamp: new Date(item.createdAt)
-    }));
-    setConversations(loadedConversations);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
