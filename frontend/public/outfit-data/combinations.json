@@ -1,0 +1,63 @@
+{
+  "combinations": [
+    {
+      "id": "combo_001",
+      "modelImage": "models/model_001.jpg",
+      "outfitImage": "outfits/outfit_001.jpg",
+      "resultImage": "results/result_001.jpg",
+      "tags": [
+        "casual",
+        "jeans",
+        "t-shirt",
+        "male",
+        "summer"
+      ]
+    },
+    {
+      "id": "combo_002",
+      "modelImage": "models/model_002.jpg",
+      "outfitImage": "outfits/outfit_002.jpg",
+      "resultImage": "results/result_002.jpg",
+      "tags": [
+        "formal",
+        "dress",
+        "female",
+        "elegant",
+        "party"
+      ]
+    },
+    {
+      "id": "combo_003",
+      "modelImage": "models/model_003.jpg",
+      "outfitImage": "outfits/outfit_003.jpg",
+      "resultImage": "results/result_003.jpg",
+      "tags": [
+        "business",
+        "suit",
+        "male",
+        "formal",
+        "office"
+      ]
+    },
+    {
+      "id": "combo_004",
+      "modelImage": "models/model_004.jpg",
+      "outfitImage": "outfits/outfit_004.jpg",
+      "resultImage": "results/result_004.jpg",
+      "tags": [
+        "casual",
+        "hoodie",
+        "female",
+        "comfortable",
+        "winter"
+      ]
+    },
+    {
+      "id": "combo_005",
+      "modelImage": "models/model_005.jpg",
+      "outfitImage": "outfits/outfit_005.jpg",
+      "resultImage": "results/result_005.jpg",
+      "tags": []
+    }
+  ]
+}

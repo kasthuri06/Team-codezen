@@ -1,0 +1,46 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="200" y2="200">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="hangerGrad" x1="50" y1="40" x2="150" y2="80">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="clothesGrad" x1="60" y1="90" x2="140" y2="160">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e0e7ff"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="200" rx="40" fill="url(#bgGrad)"/>
+  
+  <!-- Person silhouette (faded) -->
+  <ellipse cx="70" cy="60" rx="15" ry="18" fill="#8b5cf6" opacity="0.3"/>
+  <path d="M55 78 Q70 85 85 78 L85 130 Q70 135 55 130 Z" fill="#8b5cf6" opacity="0.3"/>
+  
+  <!-- Hanger (neon style) -->
+  <path d="M100 45 Q95 40 90 45" stroke="url(#hangerGrad)" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M90 45 L60 55 L140 55 L110 45" stroke="url(#hangerGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="100" cy="42" r="3" fill="#06b6d4"/>
+  
+  <!-- T-shirt outline -->
+  <path d="M70 60 L70 65 Q70 70 75 70 L75 120 Q75 125 80 125 L120 125 Q125 125 125 120 L125 70 Q130 70 130 65 L130 60 Q125 55 120 60 L115 65 Q110 70 100 70 Q90 70 85 65 L80 60 Q75 55 70 60 Z" 
+        fill="url(#clothesGrad)" stroke="white" stroke-width="2"/>
+  
+  <!-- Pants outline -->
+  <path d="M85 130 L85 170 Q85 175 90 175 L95 175 Q100 175 100 170 L100 130" 
+        fill="url(#clothesGrad)" stroke="white" stroke-width="2"/>
+  <path d="M115 130 L115 170 Q115 175 110 175 L105 175 Q100 175 100 170 L100 130" 
+        fill="url(#clothesGrad)" stroke="white" stroke-width="2"/>
+  
+  <!-- Circular arrow (try-on concept) -->
+  <path d="M140 100 Q150 110 150 125 Q150 140 140 150" 
+        stroke="#06b6d4" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M140 150 L145 145 M140 150 L135 145" 
+        stroke="#06b6d4" stroke-width="3" stroke-linecap="round"/>
+</svg>
