@@ -23,7 +23,11 @@ initializeFirebase();
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:3000',
+    'https://sitfit-ai.netlify.app',
+    'https://main--sitfit-ai.netlify.app'
+  ],
   credentials: true
 }));
 app.use(morgan('combined'));
